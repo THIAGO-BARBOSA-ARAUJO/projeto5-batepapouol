@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400;1,500&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.todo-conteudo{
+    width: 100%;
+    max-width: 375px;
+    margin: 0 auto;
+}
+
+/********************************** header ***********************************************/
+
+.container-header{
+    background: #FFFFFF;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+    padding: 0 10px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    max-width: 375px;
+}
+
+.container-header img {
+    width: 42px;
+    height: 32px;
+}
+
+.container-header img:nth-child(1) {
+    width: 75px;
+    height: 53px;
+}
+
+/********************************** header ***********************************************/
+
+
+
+/********************************** main ***********************************************/
+
+main {
+    
+}
+.container-main {
+    
+    margin: 100px 0;
+}
+/********************************** main ***********************************************/
+
+
+
+
+/********************************** footer ***********************************************/
+
+.container-footer{
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    max-width: 375px;
+    padding: 0 10px;
+    background-color: #FFFFFF;
+}
+
+.container-footer input {
+    width: 300px;
+    height: 30px;
+    outline: none;
+    border: none;
+    font-family: 'Roboto';
+    font-style: italic;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+}
+/********************************** footer ***********************************************/
