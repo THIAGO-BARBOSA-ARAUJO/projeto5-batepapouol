@@ -21,9 +21,8 @@
         <!-----------------------------------------main------------------------------------->
         <main>
             <div class="container-main">
-                <ul>
-                    
-                    
+                <ul class="box_mensagem">
+                   
                 </ul>
             </div><!--container-main-->
         </main>
@@ -31,12 +30,15 @@
         <!-----------------------------------------footer----------------------------------->
         <footer>
             <div class="container-footer">
-                <input placeholder="Escreva aqui..." type="text">
-                <img src="img/Vector-footer.svg">
+                <form>
+                    <input class="text_input" placeholder="Escreva aqui..." type="text">
+                    <button class="enviar_msg" type="submit"><img src="img/Vector-footer.svg"></button>
+                </form>
+                
             </div><!--container-footer-->
         </footer>
     </div><!--todo-conteudo-->
-
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html>
