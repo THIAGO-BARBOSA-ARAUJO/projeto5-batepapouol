@@ -2,6 +2,14 @@
 const btn_enviar_menssagem = document.querySelector(".enviar_msg")
 const box_mensagem = document.querySelector(".box_mensagem")
 
+const arrayUsers = document.querySelectorAll(".usuarios > div")
+const fundo = document.querySelector(".fundo")
+
+const caixa_users = document.querySelector(".usuarios")
+
+const escolher_pessoa_img = document.querySelector(".escolher_pessoa_img")
+const tela_escolhe_contato = document.querySelector(".tela-escolhe-contato")
+
 const nome_usuario = prompt("Digite o seu nome!")
 const nome_usuario_obj = {name:nome_usuario}
 
@@ -37,12 +45,22 @@ function logar() {
             const contexto = `<strong>${from}</strong> para <strong>${to}</strong>`
 
             if(tipo === "status") {
-                box_mensagem.innerHTML +=`<li class=${tipo}><p>${tempo}: <strong>${from}</strong> ${texto}</p></li>`;
+                box_mensagem.innerHTML +=`<li class=${tipo}><p>(${tempo}) <strong>${from}</strong> ${texto}</p></li>`;
             }
             if(tipo === "message"){
-                box_mensagem.innerHTML +=`<li class=${tipo}><p>${tempo} ${contexto}: ${texto}</p></li>`;
+                box_mensagem.innerHTML +=`<li class=${tipo}><p>(${tempo}) ${contexto}: ${texto}</p></li>`;
             }
+
+            if(tipo === "private_message"){
+                if(to === nome_usuario){
+                    box_mensagem.innerHTML +=`<li class=${tipo}><p>(${tempo}) <strong>${from}</strong> reservadamente para <strong>${to}</strong>: ${texto}</p></li>`;
+                }
+            }
+
         }
+
+        const ultima_mensagem = document.querySelector("li:last-of-type")
+        ultima_mensagem.scrollIntoView()
     }
     setInterval(()=>{
         const promessa_get = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages")
@@ -69,7 +87,49 @@ function enviarMensagem(e) {
     text_input.value = ""
 }
 
+
+function pegaUsers(){
+    const promessa_get2 = axios.get("https://mock-api.driven.com.br/api/v6/uol/participants")
+    promessa_get2.then(resposta_promessa_get2)
+
+
+    function resposta_promessa_get2(resp){
+        for(let i = 0; i < resp.data.length; i++){
+            
+            caixa_users.innerHTML += `
+            <div onclick="tiraOuColocaEscondido(this)" class="user">
+                <div>
+                    <img src="img/user.svg">
+                    <span>${resp.data[i].name}</span>
+                </div>
+                <img class="check escondido" src="img/checked.svg">
+            </div><!--user-->
+            `
+        }
+    }
+
+    console.log("Atualizou")
+}
+
+
+function mostrar_tela_pessoas() {
+    tela_escolhe_contato.classList.toggle("escondido")
+    
+}
+
+
 btn_enviar_menssagem.addEventListener("click", enviarMensagem)
 
+escolher_pessoa_img.addEventListener("click", mostrar_tela_pessoas)
+
+fundo.addEventListener("click", mostrar_tela_pessoas)
+
+
 logar()
+
+pegaUsers()
+
+function tiraOuColocaEscondido(e) {
+    e.querySelector(".check").classList.toggle("escondido")
+}
 

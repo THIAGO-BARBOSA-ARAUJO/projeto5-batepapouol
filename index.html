@@ -9,12 +9,52 @@
     <title>batepapouol</title>
 </head>
 <body>
+
+    <div class="tela-escolhe-contato escondido ">
+        <div class="fundo">
+            
+        </div><!--fundo-->
+        <div class="container-tela-escolhe-contato ">
+            <h1>Escolha um contato para enviar mensagem:</h1>
+                
+            <div class="usuarios">
+                <div onclick="tiraOuColocaEscondido(this)" class="todos">
+                    <div>
+                        <img src="img/Vector.svg">
+                        <span>Todos</span>
+                    </div>
+                    <img class="check escondido" src="img/checked.svg">
+                </div><!--todos-->
+            </div><!--usuários-->
+
+            <h2>Escolha a visibilidade:</h2>
+
+            <div onclick="tiraOuColocaEscondido(this)" class="publico">
+                <div>
+                    <img src="img/publica.svg">
+                    <span>Público</span>
+                </div>
+                <img class="check escondido" src="img/checked.svg">
+            </div><!--publico-->
+
+            <div onclick="tiraOuColocaEscondido(this)" class="privado">
+                <div>
+                    <img src="img/privado.svg">
+                    <span>Reservadamente</span>
+                </div>
+                <img class="check escondido" src="img/checked.svg">
+            </div><!--privado-->
+        </div><!--container-tela-escolhe-contato-->
+
+        
+    </div><!--tela-escolhe-contato-->
+
     <div class="todo-conteudo">
         <!-----------------------------------------header----------------------------------->
         <header>
             <div class="container-header">
                 <img src="img/logo 1.svg">
-                <img src="img/Vector.svg">
+                <img class="escolher_pessoa_img" src="img/Vector.svg">
             </div><!--container-header-->
         </header>
 
@@ -38,6 +78,8 @@
             </div><!--container-footer-->
         </footer>
     </div><!--todo-conteudo-->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="js/script.js"></script>
 </body>
