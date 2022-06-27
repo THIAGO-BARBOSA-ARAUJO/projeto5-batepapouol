@@ -29,18 +29,12 @@
                 <h1>Escolha um contato para enviar mensagem:</h1>
                     
                 <div class="usuarios">
-                    <div onclick="tiraOuColocaEscondido(this)" class="todos">
-                        <div>
-                            <img src="img/Vector.svg">
-                            <span>Todos</span>
-                        </div>
-                        <img class="check escondido" src="img/checked.svg">
-                    </div><!--todos-->
+                    
                 </div><!--usuários-->
     
                 <h2>Escolha a visibilidade:</h2>
     
-                <div onclick="tiraOuColocaEscondido(this)" class="publico">
+                <div onclick="estadoMessage(this)" class="publico">
                     <div>
                         <img src="img/publica.svg">
                         <span>Público</span>
@@ -48,7 +42,7 @@
                     <img class="check escondido" src="img/checked.svg">
                 </div><!--publico-->
     
-                <div onclick="tiraOuColocaEscondido(this)" class="privado">
+                <div onclick="estadoMessage(this)" class="privado">
                     <div>
                         <img src="img/privado.svg">
                         <span>Reservadamente</span>
@@ -78,15 +72,12 @@
                     <button class="enviar_msg" type="submit"><img src="img/Vector-footer.svg"></button>
                 </form>
                 <div>
-                    <p>para quem mandar a mensagem</p>
+                    <p class="escondido">para quem mandar a mensagem</p>
                 </div>
             </div><!--container-footer-->
             
         </footer>
     </div><!--todo-conteudo-->
-
-
-
 
 
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

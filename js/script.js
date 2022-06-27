@@ -13,28 +13,35 @@ const tela_escolhe_contato = document.querySelector(".tela-escolhe-contato")
 const nome_usuario = prompt("Digite o seu nome!")
 const nome_usuario_obj = {name:nome_usuario}
 
-function logar() {
-    const promesssa_post = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants ", nome_usuario_obj)
 
-    promesssa_post.then(tudocerto_post)
+let UserEscolhido = ""
+let pub_reser = "message"
 
-    promesssa_post.catch(deuerro_post)
 
-    function tudocerto_post(resp) {
-        console.log(resp.status + " o nome foi aceito no servidor")
+const promesssa_post = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants ", nome_usuario_obj)
+
+promesssa_post.then(tudocerto_post)
+
+promesssa_post.catch(deuerro_post)
+
+function tudocerto_post(resp) {
+        //console.log(resp.status + " o nome foi aceito no servidor")
         setInterval(enviaUsuario, 5000)
-    }
+}
     
-    function deuerro_post(resp) {
-        if(resp.request.status === 400) {
-            console.log("nome de usuário já consta no servidor")
-            location.reload()
-        }
-    }  
+function deuerro_post(resp) {
+    if(resp.request.status === 400) {
+        console.log("nome de usuário já consta no servidor")
+        location.reload()
+    }
+}  
 
-    function atualiza_mensagem(resp){
-        console.log(resp)
+function atualiza_mensagem(){
+    //console.log(resp)
+    const promessa_get = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages")
+    promessa_get.then((resp)=>{
         box_mensagem.innerHTML = "";
+    
         for (let index = 0; index < resp.data.length; index++) {
             const mensagem_atual = resp.data[index]
             const tempo = mensagem_atual.time
@@ -49,24 +56,25 @@ function logar() {
             }
             if(tipo === "message"){
                 box_mensagem.innerHTML +=`<li class=${tipo}><p>(${tempo}) ${contexto}: ${texto}</p></li>`;
-            }
+                }
 
             if(tipo === "private_message"){
-                if(to === nome_usuario){
+                if(to === nome_usuario || from === nome_usuario){
                     box_mensagem.innerHTML +=`<li class=${tipo}><p>(${tempo}) <strong>${from}</strong> reservadamente para <strong>${to}</strong>: ${texto}</p></li>`;
                 }
             }
-
         }
 
         const ultima_mensagem = document.querySelector("li:last-of-type")
         ultima_mensagem.scrollIntoView()
-    }
-    setInterval(()=>{
-        const promessa_get = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages")
-        promessa_get.then(atualiza_mensagem)
-    }, 2000)
+    })
+
+    
 }
+
+atualiza_mensagem()
+
+setInterval(atualiza_mensagem, 2000)
 
 function enviaUsuario(){
     axios.post("https://mock-api.driven.com.br/api/v6/uol/status", nome_usuario_obj)
@@ -78,13 +86,17 @@ function enviarMensagem(e) {
     const text_input = document.querySelector(".text_input")
     const text_input_obj = {
         from:nome_usuario,
-	    to:"Todos",
+	    to:UserEscolhido,
 	    text:text_input.value,
-	    type:"message"
+	    type:pub_reser
     }
 
     promessa_post2 = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", text_input_obj)
+    
+    promessa_post2.catch(()=>{window.reload()})
+    console.log(promessa_post2)
     text_input.value = ""
+    atualiza_mensagem()
 }
 
 
@@ -94,21 +106,33 @@ function pegaUsers(){
 
 
     function resposta_promessa_get2(resp){
+
+        caixa_users.innerHTML = ""
+
+        caixa_users.innerHTML = `
+        <div onclick="tiraOuColocaEscondido(this)" class="user">
+            <div>
+                <img src="img/Vector.svg">
+                <span class="nome_usuario">Todos</span>
+            </div>
+            <img class="check escondido" src="img/checked.svg">
+        </div><!--todos-->
+        `
+
+        
         for(let i = 0; i < resp.data.length; i++){
             
             caixa_users.innerHTML += `
             <div onclick="tiraOuColocaEscondido(this)" class="user">
                 <div>
                     <img src="img/user.svg">
-                    <span>${resp.data[i].name}</span>
+                    <span class="nome_usuario">${resp.data[i].name}</span>
                 </div>
                 <img class="check escondido" src="img/checked.svg">
             </div><!--user-->
             `
         }
     }
-
-    console.log("Atualizou")
 }
 
 
@@ -124,12 +148,38 @@ escolher_pessoa_img.addEventListener("click", mostrar_tela_pessoas)
 
 fundo.addEventListener("click", mostrar_tela_pessoas)
 
-
-logar()
-
 pegaUsers()
+setInterval(pegaUsers, 10000)
+
+
 
 function tiraOuColocaEscondido(e) {
     e.querySelector(".check").classList.toggle("escondido")
+    UserEscolhido = e.querySelector(".nome_usuario").innerHTML
+    
+    console.log(pub_reser)
+    if(pub_reser =! undefined && pub_reser === "private_message"){
+        pub_reser = "private_message"
+        document.querySelector(".container-footer").querySelector("p").classList.remove("escondido")
+        document.querySelector(".container-footer").querySelector("p").innerText = `Enviando para ${UserEscolhido} (reservadamente)`
+    }else {
+        document.querySelector(".container-footer").querySelector("p").classList.remove("escondido")
+        document.querySelector(".container-footer").querySelector("p").innerText = `Enviando para ${UserEscolhido}`
+        pub_reser = "message"
+    }
+
 }
 
+function estadoMessage(e) {
+    e.querySelector(".check").classList.toggle("escondido")
+    pub_reser = e.querySelector("span").innerText
+    if (pub_reser === "Reservadamente"){
+        pub_reser = "private_message"
+        document.querySelector(".container-footer").querySelector("p").classList.remove("escondido")
+        document.querySelector(".container-footer").querySelector("p").innerText = `Enviando para ${UserEscolhido} (reservadamente)`
+    }else{
+        document.querySelector(".container-footer").querySelector("p").classList.remove("escondido")
+        document.querySelector(".container-footer").querySelector("p").innerText = `Enviando para ${UserEscolhido}`
+        pub_reser = "message"
+    }
+}
