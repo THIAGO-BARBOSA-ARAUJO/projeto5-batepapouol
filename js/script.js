@@ -154,6 +154,8 @@ setInterval(pegaUsers, 10000)
 
 
 function tiraOuColocaEscondido(e) {
+    let container_main = document.querySelector(".user")
+    clear(container_main)
     e.querySelector(".check").classList.toggle("escondido")
     UserEscolhido = e.querySelector(".nome_usuario").innerHTML
     
@@ -171,6 +173,7 @@ function tiraOuColocaEscondido(e) {
 }
 
 function estadoMessage(e) {
+    clear(tela_escolhe_contato)
     e.querySelector(".check").classList.toggle("escondido")
     pub_reser = e.querySelector("span").innerText
     if (pub_reser === "Reservadamente"){
@@ -182,4 +185,11 @@ function estadoMessage(e) {
         document.querySelector(".container-footer").querySelector("p").innerText = `Enviando para ${UserEscolhido}`
         pub_reser = "message"
     }
+}
+
+function clear(divLimpar) {
+   const limpa_a_galera =  divLimpar.querySelectorAll(".check")
+   for (let i = 0; i < limpa_a_galera.length; i++){
+        limpa_a_galera[i].classList.add("escondido")
+   }
 }
